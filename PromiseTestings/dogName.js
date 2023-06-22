@@ -4,7 +4,7 @@ const fs = require('fs');
 
 function SelectDog(){
     console.log('Arrived the SelectDog.js file');
-    let dogs = [`brabancon`,`mountain`,`lakeland`,`sharpei`,`irish`,`shiba`,`komondor`,`lhasa`,`tervuren`,`shepherd`,`african`];
+    let dogs = [`clumber`,`mountain`,`sharpei`,`sharpei`,`irish`,`shiba`,`komondor`,`lhasa`,`tervuren`,`shepherd`,`african`];
     const SelectedDog = dogs[Math.floor(Math.random()*11)];
     console.log(SelectedDog, 'Selected from the Dog Names array.');
     fs.writeFile(`./PromiseTestings/dog.txt`,SelectedDog, (err)=>{ if(err)console.log(err);});
