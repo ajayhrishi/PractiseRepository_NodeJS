@@ -128,4 +128,18 @@ find() is the function like map but will only return one element that matches to
 */
 
 app.listen(port,console.log(`The app is currently listening to the port ${port} ...`));    //app.listen will start the server. 
-//s
+//sasdflkjasdfl;kj
+
+/* Note: -------------------
+* :id is how we define the variable in the URL
+   it could be anything like  :var :x 
+* req.params is the parameters that is inside the URL, so if we enter the api end point as /api/v1/tours/10, then the value 10 will be assigned to the id variable in the endpoint that we mentioned 
+  as :id
+* we can also receive multiple parameters for the end point like api/v1/tours/5/10/12/13 and we can receive them to the respective vairable by designing the end point like below. 
+/api/v1/tours/:id/:x/:y/:z  each values will be assigned to each of these variable one by one. 
+  While doing this the number of params in the url and in the end point should match. Otherwise it won't hit the same end point that we wanted and may result in an error 
+
+const id = req.params.id * 1 ; // to covert the data from string to a number. // Data base trick. 
+find() is the function like map but will only return one element that matches to the data inside the array. 
+
+* if(!tour) will return the error if the data is not in the array. 
