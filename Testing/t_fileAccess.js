@@ -31,4 +31,3 @@ fs.readFile('./text.txt','utf-8',(error,data)=>{
 });
 
 
-
