@@ -36,24 +36,24 @@ When we ready the data from the tours-simple.json it won't be as the JSON object
 * async function ReadFilePromise(url){ // Promise Creation function for Reading file
 */
 
-//--------------- End point to get all the tours. ----------------------------------
-app.get('/api/v1/tours',(req,res)=>{ 
-    res.status(200).json({      
-        status: 'success',
-        results: tours.length,
-        data: {
-            tours 
-        }
-    })
+//--------------- End point function to get all the tours. ----------------------------------
+const getAllTours = (req,res) =>{
+  res.status(200).json({      
+    status: 'success',
+    results: tours.length,
+    data: {
+        tours 
+    }
 });
+}
 /*Note
 app.get('/api/v1/tours',(req,res)=>{ // '/api/v1/tours is not mandatory, we can just add like /tours. but by following the current end point it is more readable and organised. 
 tours //same as "tours":tours // tours is the variable that we used to store the readed data from the file tours-simple.json
 */
 
-// ------------------- End point to post one extra tour to the existing list. 
-app.post('/api/v1/tours',(req,res) =>{
-    //console.log('post reqest received');
+// ------------------- End point function to post one extra tour to the existing list. 
+const addTour = (req,res) =>{
+  //console.log('post reqest received');
     //console.log('data in the body is ',req.body);
     const newId = tours[tours.length - 1].id+1; // will create an new id based on the last element's id in the tours object array. 
     //console.log('new Id created: ',newId );
@@ -75,8 +75,7 @@ app.post('/api/v1/tours',(req,res) =>{
           });
         }
       });
-    }); 
-    
+}
 /* Note: ---------------
 Even though the req do have all the data send by the user, we will not be able to directly access it. To access that data we use the middleware. 
 Middleware is a function that can modify the incoming data. 
@@ -85,8 +84,7 @@ Not using the writeFileSync becuase the code is inside a call back function.
 */
 
 // --------------------------- End point to get the tour with a spesific ID
-
-app.get(`/api/v1/tours/:id`, (req,res)=>{
+const getTourByID = (req,res) =>{
   console.log('the id based end API GET point in the app.js file is called')
   console.log(req.params, ' is the ID in the API is called.');
   const id = req.params.id * 1 ;
@@ -105,9 +103,7 @@ app.get(`/api/v1/tours/:id`, (req,res)=>{
       tour
     }
   });
-
-});
-
+}
 /* Note: -------------------
 * :id is how we define the variable in the URL
    it could be anything like  :var :x 
@@ -123,28 +119,9 @@ find() is the function like map but will only return one element that matches to
 * if(!tour) will return the error if the data is not in the array. 
 */
 
-
-// --------------------------- EndPoint to process the patch requests. 
-
-app.patch(`/api/v1/tours/update/:id`, (req,res)=>{
-console.log('tours.length: ',tours.length);
-console.log('id passed in', req.params.id*1);
-if(tours.length<req.params.id||req.params.id<0){
-  return res.status(404).json({
-    status: 'failed',
-    data:"ID not found in the list to udpate"
-  });
-}
-
-console.log('tours.length: ',tours.length);
-console.log('id passed in', req.params.id*1);
-
-res.status(201).send('Update In process');
-
-});
-
 // --------------------------- EndPoint to delete a spesific tour request.
-app.delete(`/api/v1/tours/delete/:id`,(req,res)=>{
+
+const deleteTour = (req,res) =>{
   console.log('id passed down to delete: ',req.params.id);
   console.log('Length of the total tours', tours.length);
   if(tours.length<req.params.id||req.params.id<0){
@@ -155,12 +132,46 @@ app.delete(`/api/v1/tours/delete/:id`,(req,res)=>{
   data: null
   });
   
-  });
+}
   /**
    Note: 
    * 204 is the status code we use for common delete processed HTTP requests.
    res.status(204) .json content will not be returned to the only the code 204 will be send back to the client. 
    */
+
+// --------------------------- EndPoint function to process the patch requests. 
+const updateTour = (req,res) =>{
+  console.log('tours.length: ',tours.length);
+  console.log('id passed in', req.params.id*1);
+  if(tours.length<req.params.id||req.params.id<0){
+    return res.status(404).json({
+      status: 'failed',
+      data:"ID not found in the list to udpate"
+    });
+  }
+  console.log('tours.length: ',tours.length);
+  console.log('id passed in', req.params.id*1);
+  
+  res.status(201).send('Update In process'); 
+}
+      
+//------------- ENDPOINTS
+
+
+/*
+app.get('/api/v1/tours',getAllTours);
+app.post('/api/v1/tours',addTour); 
+app.get(`/api/v1/tours/:id`, getTourByID);
+app.patch(`/api/v1/tours/:id`, updateTour);
+app.delete(`/api/v1/tours/:id`,deleteTour);
+
+Instead of using the end point like one by one we can use the route methoad to do this for us. 
+
+*/
+
+app.route('/api/v1/tours').get(getAllTours).post(addTour);
+app.route('/api/v1/tours/:id').get(getTourByID).patch(updateTour).delete(deleteTour)
+
 
 app.listen(port,console.log(`The app is currently listening to the port ${port} ...`));    //app.listen will start the server. 
 
