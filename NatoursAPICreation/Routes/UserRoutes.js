@@ -18,7 +18,13 @@ When we ready the data from the tours-simple.json it won't be as the JSON object
 */
 const userContollers = require('../Controller/userController');
 
+userRouter.param('id',(res,req,next,val)=>{
+console.log('the value of the id is ', id);
+next();
+});
+
 userRouter.route('/:id').get(userContollers.getUser).patch(userContollers.updateUser).delete(userContollers.deleteUser);
 userRouter.route('/').get(userContollers.getAllUsers).put(userContollers.AddUser);
 
 module.exports = userRouter;
+

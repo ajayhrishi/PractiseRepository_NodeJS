@@ -11,18 +11,13 @@ res.status(200).send('You have reached the postingEndpoint, you can post you dat
 });
 */
 
-
-
-
-
 //============================================= Pratical ====================================================//
 const express = require('express');
 const app = express();  
 const morgan = require('morgan'); 
 app.use(morgan('dev'));
 app.use(express.json()); 
-const fs = require('fs');
-const port = 3000; 
+
 
 const tourRouter = require('./Routes/TourRoutes.js');
 const userRouter = require('./Routes/UserRoutes.js');
@@ -58,5 +53,5 @@ when we use the app.use('/api/v1/tours', tourRouter)l
 */
 
 
-app.listen(port,console.log(`The app is currently listening to the port ${port} ...`));    //app.listen will start the server. 
+module.exports = app;
 
