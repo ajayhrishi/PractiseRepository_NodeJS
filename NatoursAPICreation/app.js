@@ -13,10 +13,11 @@ res.status(200).send('You have reached the postingEndpoint, you can post you dat
 
 //============================================= Pratical ====================================================//
 const express = require('express');
-const app = express();  
-const morgan = require('morgan'); 
+const app = express();
+const morgan = require('morgan');
 app.use(morgan('dev'));
-app.use(express.json()); 
+app.use(express.json());
+
 
 
 const tourRouter = require('./Routes/TourRoutes.js');
@@ -24,13 +25,13 @@ const userRouter = require('./Routes/UserRoutes.js');
 
 /*morgan is a popular middleware that is helps login.
 inside the margan(x) the x is the value that decide which type of login we need to use. eg: dev, combined, common, short, tiny. 
-*/ 
+*/
 // --------------------------- Creating a custom middleware for testing purpose - Tested and working. 
 
-app.use((req,res,next)=>{
-console.log('this is from middleware, hello there');
-next();
-}); 
+app.use((req, res, next) => {
+    console.log('this is from middleware, hello there');
+    next();
+});
 // ------------ Routes -------------------
 /*
 app.get('/api/v1/tours',getAllTours);
