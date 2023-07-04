@@ -18,8 +18,6 @@ const morgan = require('morgan');
 app.use(morgan('dev'));
 app.use(express.json());
 
-
-
 const tourRouter = require('./Routes/TourRoutes.js');
 const userRouter = require('./Routes/UserRoutes.js');
 
