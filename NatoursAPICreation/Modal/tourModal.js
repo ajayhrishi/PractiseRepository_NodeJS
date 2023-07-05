@@ -1,22 +1,53 @@
 const mongoose = require('mongoose');
 
 const tourSchima = new mongoose.Schema({
+    rating: {type:Number, default:4.5},
+    images: {type: [String]},
+    startDates: {type:[String]},
     name: {	type: String,
-        required: [true,'Must need a Name for the tour'],
-        unique: true
-        }
-    ,
-    rating: Number,
-    price: {
-        type:Number,
-        required: [true, 'Must need a valid price for the tour'],
+            required: [true,'Must need a Name for the tour'],
+            unique: true
+        },
+    duration: {type :Number, 
+               required: [true, 'The Tour Must have an end']  
     },
-    description : String
+
+    maxGroupSize: {type: Number, 
+                   required: [true, 'Number of occupancy is mandatory']               
+    },
+
+  difficulty: {type:String,
+                required:[true, 'Difficulty Level is mandatory']},
+
+   guides: { type: [String],
+             required:[true, 'Tour Guide details are missing' ],},
+
+    price: {
+      type:Number,
+      required: [true, 'Must need a valid price for the tour'],
+  },
+
+  priceDiscount: Number, 
+    summary:{type: String, 
+             required: [true, 'Missing Summary'],
+            },
+    description : {
+      type: String, 
+      required:[true, 'Missing duration']
+    },
+    imageCover:{type:String},
+    locations: {type:[String]},
+    CreatedDate: {
+      type:Date,
+      default:Date.now()
+    }
+    //
 });
 
 const Tour = mongoose.model('Tour',tourSchima); // Here we are creating a model with the tourSchima sepsifications. we can consider it like a set of data with the same properties. 
 module.exports = Tour;
-/*there is two ways to add the content to the Tours Model. One is 
+/*
+
 1. 
   exports.TestAddTour= (req,res) =>{
 

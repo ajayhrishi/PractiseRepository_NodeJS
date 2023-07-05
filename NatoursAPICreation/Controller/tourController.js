@@ -113,14 +113,12 @@ exports.deleteTour = async (req,res) =>{
   //Testing the AddTour function of the MongoDB. // using the .save methoad
 
   exports.TestAddTour= (req,res) =>{  
-
     const TestTour = new Tour( {
       name:"Testing Add  Tour with MongoDB 2nd Attempt",
       rating: 4.5,
       price: 600,
       description: "This is for testing purpose. "
     });
-
     TestTour.save().then(doc=>{console.log('Add Tour to the mongoDB with the Tour Model is successful'); console.log('Data Received: ',doc); return res.status(200).send('update Completed');}).
     catch(err=>{console.log('Data Saving to the MongoDB failed.');console.log("Error: ",err); return res.status(500).send('Could Not update');});
   }
@@ -152,7 +150,7 @@ exports.deleteTour = async (req,res) =>{
 //   /*Note
 //   app.get('/api/v1/tours',(req,res)=>{ // '/api/v1/tours is not mandatory, we can just add like /tours. but by following the current end point it is more readable and organised. 
 //   tours //same as "tours":tours // tours is the variable that we used to store the readed data from the file tours-simple.json
-//   */
+//   */ 
   
 //   // ------------------- End point function to post one extra tour to the existing list. 
 //   exports.addTour = (req,res) =>{
