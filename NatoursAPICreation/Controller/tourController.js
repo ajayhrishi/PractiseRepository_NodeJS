@@ -8,11 +8,56 @@ let tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simp
 //--------------- End point function to get all the tours. ----------- 
 exports.getAllTours = async (req,res) =>{
     try{
-    const Tours = await Tour.find(); // will get all the data in the Tour Modal. 
+     // will get the query strings send by client. 
+    // const Tours = await Tour.find(); // will get all the data in the Tour Modal. we use the emply find() only to get all the data without any filter, since we are enabling the filter, we need to change it. 
+    // this methoad is used to do a filter property. 
+    //const Tours = await Tour.find().where('diffculty').equals(5).where('duration').equals('easy'); // this will work just like the above. 
+    /*
+    Other similar properties. .where('duration').lte(5) // for less that or equal, you can also use lt(largerThan) gt(greaterThan) gte(greaterThanOrEqual)
+    */
+    const queryObj = {...req.query};
+    const excludedFields = ['page','sort','limit','fields'];
+    excludedFields.forEach(el=>delete queryObj[el]);
+    let queryStr = JSON.stringify(queryObj);
+    queryStr= queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match=>`$${match}`);
+    
+    /*
+    //g is the warper to select all the matching
+    \b\b is the warper to only choose the indivitual matching words
+    
+    */
+    console.log(JSON.parse(queryStr));
+    let query = Tour.find(JSON.parse(queryStr));
+    
+    // we are story it in the query variable so that we can chain more operations provided by the mongoose to this spesific variable
+    
+
+    if(req.query.sort)
+    {
+      const sortBy = req.query.sort.split(',').join(' ');
+      console.log(sortBy);
+      query = query.sort(sortBy);
+    }
+    /*
+    .sort() is a mongoose operation that can be applied to the mongoDB DataBase
+    if we are enetering the name 'price' manually to it then it will sort all the data in the query that is from the Tour Modal of MongoDB Testing DataBase to acceding order. 
+    if we enter the '-price' then it will be in the decending order. 
+
+    when we have multiple sort operations then we can pass in price -rating NumberOfRating as toghther to a .sort() and mongoose will take care of it. 
+    but endpoint's process.argv will not process the spaces in between. So we will use the , while doing the api calls to to get it send to the server and from the server we will get it back to as 
+    we want using the code 
+
+      const sortBy = req.query.sort.split(',').join(' ');
+      console.log(sortBy);
+
+    */
+
+    const tours = await query;
+
     res.status(200).json({
       status: "success",
-      length: Tours.length,
-      Tours
+      length: tours.length,
+      tours
     });
   }
   catch(err){
