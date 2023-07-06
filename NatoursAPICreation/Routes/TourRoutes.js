@@ -11,7 +11,10 @@ const tourRouter = express.Router();
 // });
 
 
+tourRouter.route('/busy_month/:year').get(tourContollers.getBusyMonth);
+tourRouter.route('/stats').get(tourContollers.getTourStats);
+tourRouter.route('/bestTour').get(tourContollers.TopTourFetchMiddleWare,tourContollers.getAllTours);
 tourRouter.route('/').get(tourContollers.getAllTours).post(tourContollers.addTour);
 tourRouter.route('/:id').get(tourContollers.getTourByID).patch(tourContollers.updateTour).delete(tourContollers.deleteTour);
-tourRouter.route('/test').post(tourContollers.TestAddTour);
 module.exports = tourRouter;
+
